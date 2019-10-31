@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Static file declaration
-app.use(express.static(path.join(__dirname, 'client/public')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Server port
 var HTTP_PORT = 8000 
@@ -18,10 +18,11 @@ var HTTP_PORT = 8000
 app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
+
 // Root endpoint
-// app.get("/", (req, res, next) => {
-//     res.json({"message":"Ok"})
-// });
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+});
 
 app.get("/api/invoices", (req, res, next) => {
     var sql = "SELECT id, invoice_number, billing_date FROM invoices"

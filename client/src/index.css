@@ -12,3 +12,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.docketTotal {
+  width: 30px;
+}
+
+table {
+  border-collapse:collapse;
+}
+
+tr, td, th {
+  border: 1px solid black;
+}
+
+td {
+  text-align: center;
+  vertical-align: top;
+}

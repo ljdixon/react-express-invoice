@@ -37,12 +37,10 @@ const App = () => {
 
     return (
         <div className="container">
-            <h1>CRUD App with Hooks</h1>
             <div className="flex-row">
-                <div className="flex-large">
+                <div className="edit-invoice" align="center" style={{float: "left", padding: "20px"}}>
                     {editing ? (
                         <div>
-                        <h2>Edit Invoice</h2>
                         <EditInvoiceForm
                             editing={editing}
                             setEditing={setEditing}
@@ -57,8 +55,8 @@ const App = () => {
                         </div>
                     )}
                 </div>
-                <div className="flex-large">
-                    <h2>View invoices</h2>
+                <div className="invoice-list" style={{float: "right", padding: "20px"}}>
+                    <h2>Invoices</h2>
                     <InvoiceTable invoices={invoices} editRow={editRow} />
                 </div>
             </div>

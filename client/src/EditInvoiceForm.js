@@ -82,6 +82,7 @@ const EditInvoiceForm = props => {
         props.updateInvoice(invoice.id, invoice)
       }}
     >
+      <h1>CONSTABLE REQUEST FOR PAYMENT</h1>      
       <label>Invoice Number</label>
       <input type="text" name="invoice_number" value={invoice.invoice_number} onChange={handleInputChange} />
       <label>Billing Date</label>
@@ -90,27 +91,43 @@ const EditInvoiceForm = props => {
       <button
             type="button"
             onClick={handleAddShareholder}
-            classnameOfDefendant="small"
+            className="small"
           >
             Add Docket
           </button>
-  
+
+          <table>
+                <tr>
+                  <th rowSpan="2">DOCKET NUMBER</th>
+                  <th rowSpan="2">Name of Defendant(s)</th>
+                  <th rowSpan="2">Address Where Served</th>
+                  <th rowSpan="2">Service Performed</th>
+                  <th rowSpan="2">Date</th>
+                  <th colSpan="3">Amounts</th>
+                </tr>
+                <tr>
+                  <th>Fee</th><th>Mileage</th><th>Total</th>
+                </tr>
+        
           {invoice.dockets.map((docket, idx) => (
-            <div classnameOfDefendant="shareholder">
+                <tr key={idx}>
+                  <td>
               <input
                 type="text"
                 placeholder="Docket Number"
                 name="docketNumber"
                 value={docket.docket_number}
                 onChange={handleChange(idx)}
-              />
+              /></td>
+              <td>
               <input
                 type="text"
                 placeholder="Name of Defendant(s)"
                 name="nameOfDefendant"
                 value={docket.nameOfDefendant}
                 onChange={handleChange(idx)}
-              />
+              /></td>
+              <td>
                <input
                 type="text"
                 placeholder="Address Where Served"
@@ -118,6 +135,8 @@ const EditInvoiceForm = props => {
                 value={docket.addressWhereServed}
                 onChange={handleChange(idx)}
               />
+              </td>
+              <td>
               <input
                 type="text"
                 placeholder="Service Performed"
@@ -125,6 +144,8 @@ const EditInvoiceForm = props => {
                 value={docket.servicePerformed}
                 onChange={handleChange(idx)}
               />
+              </td>
+              <td>
               <input
                 type="text"
                 placeholder="Date"
@@ -132,34 +153,36 @@ const EditInvoiceForm = props => {
                 value={docket.date}
                 onChange={handleChange(idx)}
               />
+              </td>
+                <td>
               <input
                 type="text"
                 name="fee"
                 value={docket.fee}
                 onChange={handleChange(idx)}
               />
+              </td>
+              <td>
               <input
                 type="text"
                 name="mileage"
                 value={docket.mileage}
                 onChange={handleChange(idx)}
               />
-              <input
-                type="text"
-                name="docketTotal"
-                value={docket.docketTotal}
-                readOnly
-              />
+              </td>
+            
+              <span className="docketTotal"> {docket.docketTotal} </span>
               <button
                 type="button"
                 onClick={handleRemoveShareholder(idx)}
-                classnameOfDefendant="small"
+                className="small"
               >
                 -
               </button>
-            </div>
+              </tr>
           ))}
-          <button>Update user</button>
+           </table>
+          <button onClick={() => props.setEditing(false)}>Update user</button>
       <button onClick={() => props.setEditing(false)} className="button muted-button">
         Cancel
       </button>
