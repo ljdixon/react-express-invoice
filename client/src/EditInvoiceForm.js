@@ -12,14 +12,15 @@ const EditInvoiceForm = props => {
   useEffect(() => {
     const mileageRate = .555;
     let newDockets = props.currentInvoice.dockets.map((docket) => {
-      let fee = 0;
+      let fee = 0.0;
       let mileageTotal = 0;
       let total = 0;
-      
-      fee = docket.fee * 100;
-      mileageTotal = Math.round((docket.mileage * mileageRate) * 100, 2) / 100;
-      total = ((fee / 100) + mileageTotal);
-      return { ...docket, docketTotal: total };
+
+      fee = docket.fee * 10;
+      mileageTotal = docket.mileage * (mileageRate * 1000);
+      total = parseFloat(((fee + mileageTotal) / 1000).toFixed(2));
+      console.log(total)
+      return { ...docket, fee: (fee / 1000).toFixed(2), docketTotal: total };
     });
     setInvoice({...props.currentInvoice, dockets: newDockets })
   }, [props])
@@ -33,26 +34,28 @@ const EditInvoiceForm = props => {
       let total = 0;
       if(evt.target.name === "fee") {
         if(evt.target.value !== "" && !isNaN(evt.target.value)) {
-          fee = evt.target.value * 100;
+          fee = evt.target.value * 1000;
         }
 
         if(docket.mileage !== "" && !isNaN(docket.mileage)) {
-          mileageTotal = Math.round((docket.mileage * mileageRate) * 100, 2) / 100;
+          mileageTotal = docket.mileage * (mileageRate * 1000);
         }
-        total = ((fee / 100) + mileageTotal);
+        total = parseFloat(((fee + mileageTotal) / 1000).toFixed(2));
         console.log({ ...docket, [evt.target.name]: evt.target.value, docketTotal: total });
         return { ...docket, [evt.target.name]: evt.target.value, docketTotal: total };
       } else if (evt.target.name === "mileage") {
         if(evt.target.value !== "" && !isNaN(evt.target.value)) {
-          mileageTotal = Math.round((evt.target.value * mileageRate) * 100, 2) / 100;
+          mileageTotal = evt.target.value * (mileageRate * 1000);
         }
 
         if(docket.fee !== "" && !isNaN(docket.fee)) {
-          fee = docket.fee * 100;
+          fee = docket.fee * 1000;
         }
-        total = ((fee / 100) + mileageTotal);
+        console.log(fee)
+        total = parseFloat(((fee + mileageTotal) / 1000).toFixed(2));
         return { ...docket, [evt.target.name]: evt.target.value, docketTotal: total };
       } else {
+        console.log(evt.target.name)
         return { ...docket, [evt.target.name]: evt.target.value };
       }
     });
@@ -60,16 +63,22 @@ const EditInvoiceForm = props => {
   };
 
   const calcInvoiceTotal = () => {
-      
     return invoice.dockets.reduce((prev, cur) => (Math.round((prev + cur.docketTotal) * 100, 2) / 100), 0);
   }
 
   const handleAddShareholder = () => {
-    setInvoice({...invoice, dockets: invoice.dockets.concat([{ docketNumber: "", nameOfDefendant: "", addressWhereServed: "", servicePerformed: "", date: "", fee: 0.00, mileage: 0, docketTotal: 0.00 }])})
+    fetch('/api/invoices/dockets/' + invoice.id, {
+      method: 'POST'
+    }).then(res => res.json())
+    .then(setInvoice({...invoice, dockets: invoice.dockets.concat([{ docket_number: "", nameOfDefendant: "", addressWhereServed: "", servicePerformed: "", date: "", fee: 0.00, mileage: 0, docketTotal: 0.00 }])}));
+    
   };
 
-  const handleRemoveShareholder = idx => () => {
-    setInvoice({...invoice, dockets: invoice.dockets.filter((s, sidx) => idx !== sidx)})
+  const handleRemoveShareholder = (id, idx) => () => {
+    fetch('/api/invoices/dockets/' + id, {
+      method: 'DELETE'
+    }).then(res => res.json())
+    .then(setInvoice({...invoice, dockets: invoice.dockets.filter((s, sidx) => idx !== sidx)}));
   };
 
   return (
@@ -77,26 +86,25 @@ const EditInvoiceForm = props => {
       onSubmit={event => {
         event.preventDefault()
         if (!invoice.invoice_number || !invoice.billing_date) return
-        console.log(invoice)
-
         props.updateInvoice(invoice.id, invoice)
       }}
     >
       <h1>CONSTABLE REQUEST FOR PAYMENT</h1>      
-      <label>Invoice Number</label>
-      <input type="text" name="invoice_number" value={invoice.invoice_number} onChange={handleInputChange} />
-      <label>Billing Date</label>
-      <input type="text" name="billing_date" value={invoice.billing_date} onChange={handleInputChange} />
-
-      <button
-            type="button"
-            onClick={handleAddShareholder}
-            className="small"
-          >
-            Add Docket
-          </button>
-
+      <p>
+        <label>Invoice Number </label>
+        <input type="text" name="invoice_number" value={invoice.invoice_number} onChange={handleInputChange} />
+        <label>Billing Date </label>
+        <input type="text" name="billing_date" value={invoice.billing_date} onChange={handleInputChange} />
+        <button
+              type="button"
+              onClick={handleAddShareholder}
+              className="small"
+            >
+              Add Docket
+            </button>
+      </p>
           <table>
+              <tbody>
                 <tr>
                   <th rowSpan="2">DOCKET NUMBER</th>
                   <th rowSpan="2">Name of Defendant(s)</th>
@@ -115,7 +123,7 @@ const EditInvoiceForm = props => {
               <input
                 type="text"
                 placeholder="Docket Number"
-                name="docketNumber"
+                name="docket_number"
                 value={docket.docket_number}
                 onChange={handleChange(idx)}
               /></td>
@@ -170,23 +178,27 @@ const EditInvoiceForm = props => {
                 onChange={handleChange(idx)}
               />
               </td>
-            
+              <td>
               <span className="docketTotal"> {docket.docketTotal} </span>
+              </td>
+              <td>
               <button
                 type="button"
-                onClick={handleRemoveShareholder(idx)}
+                onClick={handleRemoveShareholder(docket.id, idx)}
                 className="small"
               >
                 -
               </button>
+              </td>
               </tr>
           ))}
+            </tbody>
            </table>
-          <button onClick={() => props.setEditing(false)}>Update user</button>
+          <button /*onClick={() => props.setEditing(false)}*/>Update user</button>
       <button onClick={() => props.setEditing(false)} className="button muted-button">
         Cancel
       </button>
-      <div>{calcInvoiceTotal().toFixed(2)}</div>
+      <div>${calcInvoiceTotal().toFixed(2)}</div>
     </form>
   )
 }

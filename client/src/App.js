@@ -17,14 +17,28 @@ const App = () => {
     }, [])
 
     const addInvoice = invoice => {
-        invoice.id = invoice.length + 1
-        setInvoices([...invoices, invoice])
+        fetch('/api/invoices', {
+            method: 'POST',
+            headers : {"Content-Type": "application/json"},
+                    body:JSON.stringify({invoice_number: invoice.invoice_number, billing_date: invoice.billing_date})
+        }).then(res => res.json())
+        .then(data => invoice.id = data.id)
+        .then(setInvoices([...invoices, invoice]));
     }
 
     const updateInvoice = (id, updatedInvoice) => {
         setEditing(false)
-        
-        setInvoices(invoices.map(invoice => (invoice.id === id ? updatedInvoice : invoice)))
+        //setInvoices(invoices.map(invoice => (invoice.id === id ? updatedInvoice : invoice)))
+        updatedInvoice.dockets.map((docket) => {
+            fetch('/api/invoices/dockets/' + docket.id, {
+                    method: 'PUT',
+                    headers : {"Content-Type": "application/json"},
+                    body:JSON.stringify({docket_number: docket.docket_number, name: docket.name, address: docket.address, service_performed: docket.service_performed, date: docket.date, fee: parseInt(docket.fee * 100), mileage: parseInt(docket.mileage), invoice_id: parseInt(id)})
+                }).then((res) => res.json())
+                .then((data) =>  console.log(data))
+                .catch((err)=>console.log(err))
+        })
+        setEditing(true)
     }
 
     const editRow = invoice => {
@@ -33,6 +47,14 @@ const App = () => {
         fetch('/api/invoices/' + invoice.id)
             .then(res => res.json())
             .then(dockets => setCurrentInvoice({ id: invoice.id, invoice_number: invoice.invoice_number, billing_date: invoice.billing_date, dockets: dockets }));  
+    }
+
+    const deleteInvoice = (id) => {
+        setEditing(false)
+        fetch('/api/invoices/' + id, {
+            method: 'DELETE'
+          }).then(res => res.json())
+          .then(setInvoices(invoices.filter(invoice => invoice.id !== id)));          
     }
 
     return (
@@ -57,7 +79,7 @@ const App = () => {
                 </div>
                 <div className="invoice-list" style={{float: "right", padding: "20px"}}>
                     <h2>Invoices</h2>
-                    <InvoiceTable invoices={invoices} editRow={editRow} />
+                    <InvoiceTable invoices={invoices} editRow={editRow} deleteInvoice={deleteInvoice}/>
                 </div>
             </div>
         </div>

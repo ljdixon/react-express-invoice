@@ -34,11 +34,11 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             docket_number text,
             name text,
             address text,
-            service_performed,
+            service_performed text,
             date text,
             fee integer,
             mileage integer,
-            invoice_id INTEGER,
+            invoice_id integer,
             FOREIGN KEY(invoice_id) REFERENCES invoices(id)
             )`,
         (err) => {

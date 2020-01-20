@@ -12,7 +12,7 @@ const InvoiceTable = props => (
     <tbody>
     {props.invoices.length > 0 ? (
         props.invoices.map(invoice => (
-          <tr key={invoice.invoice_number}>
+          <tr key={invoice.id}>
             <td>{invoice.invoice_number}</td>
             <td>{invoice.billing_date}</td>
             <td>
@@ -24,7 +24,11 @@ const InvoiceTable = props => (
                 >
                 Edit
             </button>
-              <button className="button muted-button">Delete</button>
+              <button 
+                onClick={() => {
+                  props.deleteInvoice(invoice.id)
+              }}
+              className="button muted-button">Delete</button>
             </td>
           </tr>
         ))
