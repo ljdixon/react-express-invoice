@@ -25,7 +25,7 @@ app.get('/', function(req, res){
 });
 
 app.get("/api/invoices/", (req, res, next) => {
-    var sql = "SELECT id, invoice_number, billing_date FROM invoices"
+    var sql = "SELECT id, invoice_number, invoice_to, invoice_from, billing_date FROM invoices"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {

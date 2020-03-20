@@ -35,8 +35,8 @@ const App = () => {
                     headers : {"Content-Type": "application/json"},
                     body:JSON.stringify({docket_number: docket.docket_number, name: docket.name, address: docket.address, service_performed: docket.service_performed, date: docket.date, fee: parseInt(docket.fee * 100), mileage: parseInt(docket.mileage), invoice_id: parseInt(id)})
                 }).then((res) => res.json())
-                .then((data) =>  console.log(data))
-                .catch((err)=>console.log(err))
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
         })
         setEditing(true)
     }
@@ -46,7 +46,7 @@ const App = () => {
         //fetch dockets from database
         fetch('/api/invoices/' + invoice.id)
             .then(res => res.json())
-            .then(dockets => setCurrentInvoice({ id: invoice.id, invoice_number: invoice.invoice_number, billing_date: invoice.billing_date, dockets: dockets }));  
+            .then(dockets => setCurrentInvoice({ id: invoice.id, invoice_to: invoice.invoice_to, invoice_from: invoice.invoice_from, invoice_number: invoice.invoice_number, billing_date: invoice.billing_date, dockets: dockets }));  
     }
 
     const deleteInvoice = (id) => {

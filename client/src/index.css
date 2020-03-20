@@ -13,19 +13,61 @@ code {
     monospace;
 }
 
-.docketTotal {
-  width: 30px;
+td, span.docketTotal {
+  text-align: right;
+  width: 60px;
 }
 
 table {
-  border-collapse:collapse;
+  border-collapse: collapse;
 }
 
 tr, td, th {
   border: 1px solid black;
+  white-space: nowrap;
 }
 
 td {
-  text-align: center;
   vertical-align: top;
+  padding: 5px;
+}
+
+tr, td.noBorder {
+  border: none;
+}
+
+.edit-invoice {
+  width: 600px;
+  float: left;
+}
+
+.invoice-list {
+  width: 300px;
+  float: right;
+}
+
+@media print {
+  @page {
+    size: 8.5in 11.0in;
+    size: portrait;
+    margin: 0.5cm;
+  }
+
+  input, textarea {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  button {
+    display: none !important;
+  }
+
+  .invoice-list {
+    display: none !important;
+  }
+
+  td {
+    border: none;
+  }
 }

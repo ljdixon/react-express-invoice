@@ -12,6 +12,12 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         console.log('Connected to the SQLite database.')
         db.run(`CREATE TABLE invoices (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            invoice_to_title text,
+            invoice_to_name text,
+            invoice_to_address text,
+            invoice_to_city text,
+            invoice_to_state text,
+            invoice_to_zipcode text,
             invoice_number text,
             invoice_to text,
             invoice_from text,
@@ -23,7 +29,18 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 console.log(err.message)
             } else {
                 // Table just created, creating some rows
-                var insert = 'INSERT INTO invoices (invoice_number, invoice_to, invoice_from, billing_date) VALUES (?,?,?,?)'
+                var insert = `INSERT INTO invoices (
+                    invoice_to_title, 
+                    invoice_to_name, 
+                    invoice_to_address, 
+                    invoice_to_city, 
+                    invoice_to_state, 
+                    invoice_to_zipcode, 
+                    invoice_number, 
+                    invoice_to, 
+                    invoice_from, 
+                    billing_date) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?)`
                 db.run(insert, ["8152319","LYCOMING COUNTY SHERIFF MARK LUSK 48 WEST THIRD STREET WILLIAMSPORT, PA 17701","Stanley (Ed) Crum  2381 Riverside Drive South Williamsport, PA 17702 Cell: 570-971-2425","1/23/2019"])
                 db.run(insert, ["8152320","LYCOMING COUNTY SHERIFF MARK LUSK 48 WEST THIRD STREET WILLIAMSPORT, PA 17701","Stanley (Ed) Crum  2381 Riverside Drive South Williamsport, PA 17702 Cell: 570-971-2425","2/6/2019"])
             }

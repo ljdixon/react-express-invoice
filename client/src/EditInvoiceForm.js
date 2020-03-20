@@ -5,7 +5,6 @@ const EditInvoiceForm = props => {
 
   const handleInputChange = event => {
     const { name, value } = event.target
-
     setInvoice({ ...invoice, [name]: value })
   }
 
@@ -89,26 +88,29 @@ const EditInvoiceForm = props => {
         props.updateInvoice(invoice.id, invoice)
       }}
     >
-      <h1>CONSTABLE REQUEST FOR PAYMENT</h1>      
+      <h1>CONSTABLE REQUEST FOR PAYMENT</h1> 
+      <table>
+        <tbody>
+          <tr>
+            <td>To:</td>
+            <td><textarea name="invoice_to" value={invoice.invoice_to} onChange={handleInputChange}></textarea></td>
+            <td rowSpan="5" colSpan="10"><img alt="Pennsylvania Crest" src={"./logo.png"} /></td>
+            <td>Invoice Number </td><td><input type="text" name="invoice_number" value={invoice.invoice_number} onChange={handleInputChange} /></td>  
+          </tr> 
+          <tr>
+            <td>From:</td>
+            <td><textarea name="invoice_from" value={invoice.invoice_from} onChange={handleInputChange}></textarea></td>
+            <td>Billing Date</td><td><input type="text" name="billing_date" value={invoice.billing_date} onChange={handleInputChange} /></td>   
+          </tr> 
+        </tbody>  
+      </table>   
       <p>
-        <label>Invoice Number </label>
-        <input type="text" name="invoice_number" value={invoice.invoice_number} onChange={handleInputChange} />
-        <label>Billing Date </label>
-        <input type="text" name="billing_date" value={invoice.billing_date} onChange={handleInputChange} />
-        <button
-              type="button"
-              onClick={handleAddShareholder}
-              className="small"
-            >
-              Add Docket
-            </button>
       </p>
           <table>
               <tbody>
                 <tr>
                   <th rowSpan="2">DOCKET NUMBER</th>
-                  <th rowSpan="2">Name of Defendant(s)</th>
-                  <th rowSpan="2">Address Where Served</th>
+                  <th rowSpan="2">Name of Defendant(s) <br /> Address Where Served</th>
                   <th rowSpan="2">Service Performed</th>
                   <th rowSpan="2">Date</th>
                   <th colSpan="3">Amounts</th>
@@ -118,7 +120,7 @@ const EditInvoiceForm = props => {
                 </tr>
         
           {invoice.dockets.map((docket, idx) => (
-                <tr key={idx}>
+                <tr key={idx} rowSpan="4">
                   <td>
               <input
                 type="text"
@@ -128,22 +130,40 @@ const EditInvoiceForm = props => {
                 onChange={handleChange(idx)}
               /></td>
               <td>
-              <input
-                type="text"
-                placeholder="Name of Defendant(s)"
-                name="nameOfDefendant"
-                value={docket.nameOfDefendant}
-                onChange={handleChange(idx)}
-              /></td>
-              <td>
-               <input
-                type="text"
-                placeholder="Address Where Served"
-                name="addressWhereServed"
-                value={docket.addressWhereServed}
-                onChange={handleChange(idx)}
-              />
+                <tr>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="Name of Defendant(s)"
+                      name="nameOfDefendant"
+                      value={docket.nameOfDefendant}
+                      onChange={handleChange(idx)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="Address Where Served"
+                      name="addressWhereServed"
+                      value={docket.addressWhereServed}
+                      onChange={handleChange(idx)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" />
+                  </td>
+                </tr>
               </td>
+              
               <td>
               <input
                 type="text"
@@ -179,9 +199,9 @@ const EditInvoiceForm = props => {
               />
               </td>
               <td>
-              <span className="docketTotal"> {docket.docketTotal} </span>
+              <span className="docketTotal"> ${docket.docketTotal} </span>
               </td>
-              <td>
+              <td className="noBorder">
               <button
                 type="button"
                 onClick={handleRemoveShareholder(docket.id, idx)}
@@ -192,13 +212,26 @@ const EditInvoiceForm = props => {
               </td>
               </tr>
           ))}
+            <tr>
+              <td colSpan="5" className="noBorder"></td>
+              <td>Grand Total:</td>
+              <td>${calcInvoiceTotal().toFixed(2)}</td>
+            </tr>
             </tbody>
            </table>
+           <div>
+           <button
+              type="button"
+              onClick={handleAddShareholder}
+              className="small"
+            >
+              Add Docket
+            </button>
           <button /*onClick={() => props.setEditing(false)}*/>Update user</button>
       <button onClick={() => props.setEditing(false)} className="button muted-button">
         Cancel
       </button>
-      <div>${calcInvoiceTotal().toFixed(2)}</div>
+      </div>
     </form>
   )
 }

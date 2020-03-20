@@ -1,7 +1,7 @@
 import React from 'react'
 
 const InvoiceTable = props => (
-  <table>
+  <table className="invoice_table">
     <thead>
       <tr>
         <th>Invoice#</th>
