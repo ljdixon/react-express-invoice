@@ -28,6 +28,7 @@ app.get("/api/invoices/", (req, res, next) => {
     var sql = "SELECT id, invoice_number, invoice_to, invoice_from, billing_date FROM invoices"
     var params = []
     db.all(sql, params, (err, rows) => {
+        console.log(rows)
         if (err) {
           res.status(400).json({"error":err.message});
           return;
@@ -40,7 +41,6 @@ app.get("/api/invoices/:id", (req, res, next) => {
     var sql = "SELECT dockets.id, docket_number, name, address, service_performed, date, fee, mileage FROM invoices INNER JOIN dockets ON invoice_id = invoices.id WHERE invoices.id = ?"
     var params = [req.params.id]
     db.all(sql, params, (err, rows) => {
-        console.log(rows)
         if (err) {
           res.status(400).json({"error":err.message});
           return;
