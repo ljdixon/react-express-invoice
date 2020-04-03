@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Express REST API",
   "main": "server.js",
-  "bin":"./server.js",
+  "bin": "./server.js",
   "pkg": {
     "assets": "client/build/**/*"
   },

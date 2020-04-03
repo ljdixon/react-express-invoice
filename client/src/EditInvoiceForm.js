@@ -88,9 +88,9 @@ const EditInvoiceForm = props => {
         props.updateInvoice(invoice.id, invoice)
       }}
     >
-      <h1>CONSTABLE REQUEST FOR PAYMENT</h1> 
-      <table>
+      <table className="invoice-info">
         <tbody>
+          <tr><td colSpan="14"><h1>CONSTABLE REQUEST FOR PAYMENT</h1></td></tr>
           <tr>
             <td>To:</td>
             <td><textarea name="invoice_to" value={invoice.invoice_to} onChange={handleInputChange}></textarea></td>
@@ -106,7 +106,7 @@ const EditInvoiceForm = props => {
       </table>   
       <p>
       </p>
-          <table>
+          <table className="invoice-data">
               <tbody>
                 <tr>
                   <th rowSpan="2">DOCKET NUMBER</th>

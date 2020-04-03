@@ -60,9 +60,9 @@ const App = () => {
     return (
         <div className="container">
             <div className="flex-row">
-                <div className="edit-invoice" align="center" style={{float: "left", padding: "20px"}}>
+                <div className="invoice">
                     {editing ? (
-                        <div>
+                        <div className="edit-invoice">
                         <EditInvoiceForm
                             editing={editing}
                             setEditing={setEditing}
@@ -77,7 +77,7 @@ const App = () => {
                         </div>
                     )}
                 </div>
-                <div className="invoice-list" style={{float: "right", padding: "20px"}}>
+                <div className="invoice-list">
                     <h2>Invoices</h2>
                     <InvoiceTable invoices={invoices} editRow={editRow} deleteInvoice={deleteInvoice}/>
                 </div>

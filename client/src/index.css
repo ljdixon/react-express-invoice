@@ -11,7 +11,7 @@ body {
 textarea {
   resize: none;
   width: 250px;
-  height: 60px;
+  height: 70px;
 }
 
 code {
@@ -42,13 +42,18 @@ tr, td.noBorder {
   border: none;
 }
 
-.edit-invoice {
-  width: 600px;
+.invoice {
+  width: 80%;
   float: left;
 }
 
+.edit-invoice h1 {
+  text-align: center;
+}
+
+/*Invoice List*/
 .invoice-list {
-  width: 300px;
+  width: 20%;
   float: right;
 }
 
