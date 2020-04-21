@@ -19,11 +19,6 @@ code {
     monospace;
 }
 
-td, span.docketTotal {
-  text-align: right;
-  width: 60px;
-}
-
 table {
   border-collapse: collapse;
 }
@@ -57,6 +52,53 @@ tr, td.noBorder {
   float: right;
 }
 
+td.docketNumber textarea {
+  text-align: center;
+  width: 100px;
+}
+
+td.name input {
+  width: 300px;
+}
+
+td.servicePerformed textarea {
+  text-align: center;
+  width: 100px;
+}
+
+td.date input {
+  text-align: center;
+  width: 100px;
+}
+
+td.fees input {
+  width: 50%;
+}
+
+span.fee::before {
+  content: '$';
+}
+
+span.fee {
+  width: 100px;
+  float: right;
+}
+
+td.mileage input {
+  text-align: center;
+  width: 100px;
+}
+
+td, span.docketTotal {
+  text-align: right;
+  width: 100px;
+}
+
+#logo {
+  width: 292px;
+  text-align: center;
+}
+
 @media print {
   @page {
     size: 8.5in 11.0in;
@@ -76,9 +118,5 @@ tr, td.noBorder {
 
   .invoice-list {
     display: none !important;
-  }
-
-  td {
-    border: none;
   }
 }

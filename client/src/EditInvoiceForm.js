@@ -90,11 +90,11 @@ const EditInvoiceForm = props => {
     >
       <table className="invoice-info">
         <tbody>
-          <tr><td colSpan="14"><h1>CONSTABLE REQUEST FOR PAYMENT</h1></td></tr>
+          <tr><td colSpan="18"><h1>CONSTABLE REQUEST FOR PAYMENT</h1></td></tr>
           <tr>
             <td>To:</td>
             <td><textarea name="invoice_to" value={invoice.invoice_to} onChange={handleInputChange}></textarea></td>
-            <td rowSpan="5" colSpan="10"><img alt="Pennsylvania Crest" src={"./logo.png"} /></td>
+            <td rowSpan="5" colSpan="12" id="logo"><img alt="Pennsylvania Crest" src={"./logo.png"} /></td>
             <td>Invoice Number </td><td><input type="text" name="invoice_number" value={invoice.invoice_number} onChange={handleInputChange} /></td>  
           </tr> 
           <tr>
@@ -109,9 +109,9 @@ const EditInvoiceForm = props => {
           <table className="invoice-data">
               <tbody>
                 <tr>
-                  <th rowSpan="2">DOCKET NUMBER</th>
+                  <th rowSpan="2">DOCKET <br /> NUMBER</th>
                   <th rowSpan="2">Name of Defendant(s) <br /> Address Where Served</th>
-                  <th rowSpan="2">Service Performed</th>
+                  <th rowSpan="2">Service <br /> Performed</th>
                   <th rowSpan="2">Date</th>
                   <th colSpan="3">Amounts</th>
                 </tr>
@@ -121,20 +121,14 @@ const EditInvoiceForm = props => {
         
           {invoice.dockets.map((docket, idx) => (
                 <tr key={idx} rowSpan="4">
-                  <td>
-              <input
-                type="text"
-                placeholder="Docket Number"
-                name="docket_number"
-                value={docket.docket_number}
-                onChange={handleChange(idx)}
-              /></td>
+                  <td className="docketNumber">
+                    <textarea name="docket_number" alue={docket.docket_number} onChange={handleChange(idx)}></textarea>
+                  </td>
               <td>
                 <tr>
-                  <td>
+                  <td className="name">
                     <input
                       type="text"
-                      placeholder="Name of Defendant(s)"
                       name="nameOfDefendant"
                       value={docket.nameOfDefendant}
                       onChange={handleChange(idx)}
@@ -150,7 +144,6 @@ const EditInvoiceForm = props => {
                   <td>
                     <input
                       type="text"
-                      placeholder="Address Where Served"
                       name="addressWhereServed"
                       value={docket.addressWhereServed}
                       onChange={handleChange(idx)}
@@ -164,42 +157,37 @@ const EditInvoiceForm = props => {
                 </tr>
               </td>
               
-              <td>
-              <input
-                type="text"
-                placeholder="Service Performed"
-                name="servicePerformed"
-                value={docket.servicePerformed}
-                onChange={handleChange(idx)}
-              />
+              <td className="servicePerformed">
+                <textarea name="servicePerformed" value={docket.servicePerformed} onChange={handleChange(idx)}></textarea>
+              </td>
+              <td className="date">
+                <input
+                  type="text"
+                  name="date"
+                  value={docket.date}
+                  onChange={handleChange(idx)}
+                />
+              </td>
+              <td className="fees">
+                <span className="fee">
+                  <input
+                    type="text"
+                    name="fee"
+                    value={docket.fee}
+                    onChange={handleChange(idx)}
+                  />
+                </span>
+              </td>
+              <td className="mileage">
+                <input
+                  type="text"
+                  name="mileage"
+                  value={docket.mileage}
+                  onChange={handleChange(idx)}
+                />
               </td>
               <td>
-              <input
-                type="text"
-                placeholder="Date"
-                name="date"
-                value={docket.date}
-                onChange={handleChange(idx)}
-              />
-              </td>
-                <td>
-              <input
-                type="text"
-                name="fee"
-                value={docket.fee}
-                onChange={handleChange(idx)}
-              />
-              </td>
-              <td>
-              <input
-                type="text"
-                name="mileage"
-                value={docket.mileage}
-                onChange={handleChange(idx)}
-              />
-              </td>
-              <td>
-              <span className="docketTotal"> ${docket.docketTotal} </span>
+                <span className="docketTotal"> ${docket.docketTotal} </span>
               </td>
               <td className="noBorder">
               <button
