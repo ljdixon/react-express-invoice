@@ -19,6 +19,10 @@ code {
     monospace;
 }
 
+.invoice {
+  float: left;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -35,11 +39,6 @@ td {
 
 tr, td.noBorder {
   border: none;
-}
-
-.invoice {
-  width: 80%;
-  float: left;
 }
 
 .edit-invoice h1 {
@@ -59,6 +58,15 @@ td.docketNumber textarea {
 
 td.name input {
   width: 300px;
+}
+
+td.name textarea {
+  text-align: center;
+  height: 2.5em;
+}
+td.address textarea {
+  text-align: center;
+  height: 2.5em;
 }
 
 td.servicePerformed textarea {
@@ -99,11 +107,23 @@ td, span.docketTotal {
   text-align: center;
 }
 
+.alignLeft {
+  text-align: left;
+}
+
 @media print {
   @page {
     size: 8.5in 11.0in;
     size: portrait;
     margin: 0.5cm;
+  }
+
+  .invoice-info {
+    margin: 0 auto;
+  }
+
+  td {
+    border: none;
   }
 
   input, textarea {
